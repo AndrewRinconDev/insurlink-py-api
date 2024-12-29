@@ -1,25 +1,35 @@
-import smtplib, email, pathlib, jinja2, ssl
-# import os
-from email.mime.text import MIMEText
+import pathlib, jinja2
+import os
+# from email.mime.text import MIMEText
 from dotenv import load_dotenv
+from mailjet_rest import Client
+import os
+
 
 load_dotenv()
 
 def sendEmail(emailData):
-  # Load email template
   template = jinja2.Template(pathlib.Path("templates/email_template.html").read_text(encoding="utf-8"))
-  msg = MIMEText(template.render(**emailData), 'html')
-  # msg = MIMEText("dskfjsd")
-  msg['Subject'] = emailData["subject"]
-  msg['From'] = "paginaweb@insurlink.com.co"
-  msg['To'] = emailData["to"]
-  
-  context = ssl.create_default_context()
-  
-  # Send email
-  with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
-    server.login("paginaweb@insurlink.com.co", "qgpa efdv ocup vanu")
-    server.sendmail("paginaweb@insurlink.com.co", emailData["to"], msg.as_string())
-    server.quit()
+
+  try:
+    # assigning NewEmail() without params defaults to MAILERSEND_API_KEY env var
+    api_key = os.environ['MJ_APIKEY_PUBLIC']
+    api_secret = os.environ['MJ_APIKEY_PRIVATE']
+    mailjet = Client(auth=(api_key, api_secret), version='v3')
     
-  print("Email sent")
+    data = {
+      'FromEmail': os.environ['EMAIL_USER'],
+      'Recipients': [{ "Email": emailData["to"], "Name": "Passenger" }
+      ],
+      'Subject': "Your email flight plan!",
+      'Html-part': template.render(**emailData)
+    }
+    
+    result = mailjet.send.create(data=data)
+    
+    print(result.status_code)
+    print(result.json())
+    print("Email sent")
+  except Exception as e:
+    print("Error sending email: ", e)
+    raise e
