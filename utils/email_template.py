@@ -1,5 +1,4 @@
 def getEmailTemplate(data):
-  print("getEmailTemplate", data['title'])
   return """\
     <html>
       <head>

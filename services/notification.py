@@ -1,14 +1,12 @@
 from services.email import sendEmail
+from repositories.notification import saveEmailNotification
 
 def sendEmailNotification(values):
-  # TODO Save email notification
-
+  saveEmailNotification(values)
   sendEmail({
-    "to": "andrew.rincon.94@gmail.com",
-    "subject": "Test 2",
-    "title": "Test",
-    "summary": "Test",
-    "url_image": "https://www.google.com"
-    # "html": getEmailTemplate({ "title": "Test", "summary": "Test", "url_image": "https://www.google.com" })
+    "to": values["contactEmail"],
+    "title": "Solicitud de información de productos",
+    "summary": "El cliente solicita información sobre los productos a través de la página web, los datos del cliente son los siguientes:",
+    "data": values
   })
   

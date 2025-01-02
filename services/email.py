@@ -17,17 +17,19 @@ def sendEmail(emailData):
     api_secret = os.environ['MJ_APIKEY_PRIVATE']
     mailjet = Client(auth=(api_key, api_secret), version='v3')
     
+    emails = emailData["to"].split(';')
+    recipients = [{"Email": email, "Name": "Worker"} for email in emails]
+
+    
     data = {
       'FromEmail': os.environ['EMAIL_USER'],
-      'Recipients': [{ "Email": emailData["to"], "Name": "Passenger" }
-      ],
-      'Subject': "Your email flight plan!",
+      'Recipients': recipients,
+      'Subject': "Website - Solicitud de información de productos",
       'Html-part': template.render(**emailData)
     }
     
     result = mailjet.send.create(data=data)
     
-    print(result.status_code)
     print(result.json())
     print("Email sent")
   except Exception as e:

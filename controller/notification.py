@@ -8,16 +8,12 @@ notification_bp = Blueprint('notification', __name__, url_prefix='/notification'
 def saveEmailNotification():
   try:
     if request.method == 'POST':
-      # files = request.files.getlist('files')
-      # board = request.form.get('board')
-      
-      sendEmailNotification({})
-      response = Response(statusCode=200, hasError=False, message="Success", data={})
+      notificationData = request.get_json()
+      responseData = sendEmailNotification(notificationData)
+      response = Response(statusCode=200, hasError=False, message="Success", data=responseData)
       return jsonify(response.dict()), 200  
-
     else:
-      sendEmailNotification({})
       return jsonify(Response(statusCode=404, hasError=True, message="Upload API GET Request Running").dict()), 404
   except Exception as e:
-    print('-----------***************', e)
+    print('Error', e)
     return jsonify(Response(statusCode=500, hasError=True, message=str(e))), 500

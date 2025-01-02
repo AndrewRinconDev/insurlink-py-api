@@ -9,22 +9,34 @@
       padding: 20px;
       box-sizing: border-box;
     }
-
     .header {
-      background-color: #f5f5f5;
+      background-color: #07074D;
       padding: 10px;
       text-align: center;
+    }
+
+    .header h1 {
+      color: #fff;
     }
 
     .content {
       padding: 20px;
-      background-color: #f5f5f5;
+      background-color: #07074D;
+    }
+
+    .content h2 {
+      color: #E2E71B;
+    }
+
+    content, .content p {
+      color: #fff !important;
     }
 
     .footer {
-      background-color: #f5f5f5;
+      background-color: #07074D;
       padding: 10px;
       text-align: center;
+      color: #fff;
     }
   </style>
 </head>
@@ -32,15 +44,20 @@
 <body>
   <div class="container">
     <div class="header">
-      <h1>Notificación</h1>
+      <h1>Notificación Página Web</h1>
     </div>
     <div class="content">
       <h2>{{title}}</h2>
       <p>{{summary}}</p>
-      <img src="{{url_image}}" alt="image" style="width: 100%; height: auto;">
+      <br/>
+      <p><b>Nombre:</b> {{data.name}}</p>
+      <p><b>Email:</b> {{data.email}}</p>
+      <p><b>Teléfono:</b> {{data.phone}}</p>
+      <p><b>Seguro de interés:</b> {{data.insurance}}</p>
+      <p><b>Mensaje:</b> {{data.message}}</p>      
     </div>
     <div class="footer">
-      <p>Gracias por leer</p>
+      <p>insurlink.com.co</p>
     </div>
   </div>
 </body>
